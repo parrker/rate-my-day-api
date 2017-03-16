@@ -17,6 +17,20 @@ export const publicRoutes = (router) => {
     return ctx.created({ message: 'Created' });
   });
 
+  router.post('/auth/login', async ctx => {
+    const { email, password } = ctx.request.body;
+
+    const user = await User.query().where({ email, password }).first();
+
+    if (user) {
+      const accessToken = user.authenticate();
+
+      return ctx.ok({ ...user, accessToken });
+    }
+
+    return ctx.badRequest({ message: 'Incorrect combination of email and password.' });
+  });
+
   return router.routes();
 };
 

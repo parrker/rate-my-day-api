@@ -5,6 +5,8 @@ exports.up = (knex) => (
     table.string('email');
     table.string('password');
     table.string('name');
+    table.string('accessToken');
+    table.datetime('tokenExpiration');
     table.timestamps();
   })
 );

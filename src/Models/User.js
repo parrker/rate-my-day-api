@@ -1,4 +1,5 @@
 import objection from 'objection';
+import moment from 'moment';
 import BaseModel from './BaseModel';
 
 export default class User extends BaseModel {
@@ -32,5 +33,22 @@ export default class User extends BaseModel {
     }
 
     super.$beforeInsert();
+  }
+
+  authenticate() {
+    const accessToken = Math.random().toString(36).substring(2);
+    const tokenExpiration = moment().add(10, 'days');
+
+    this.$query().patch({ accessToken, tokenExpiration });
+
+    return accessToken;
+  }
+
+  hasValidAccessToken() {
+    if (this.accessToken === null) return false;
+
+    if (moment().diff(moment(this.tokenExpiration)) >= 0) return true;
+
+    return false;
   }
 }

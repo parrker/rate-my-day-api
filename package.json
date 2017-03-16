@@ -7,7 +7,7 @@
     "start": "nodemon src/index.js --exec babel-node",
     "build": "babel src -d dist",
     "serve": "node dist/index.js",
-    "test": "mocha --compilers js:babel-register",
+    "test": "mocha 'test/**/*test.js' --compilers js:babel-register",
     "make": "knex migrate:make --knexfile=./database/knexConfig.js",
     "migrate": "knex migrate:latest --knexfile=./database/knexConfig.js",
     "rollback": "knex migrate:rollback --knexfile=./database/knexConfig.js"
